@@ -1,0 +1,6 @@
+{
+   "AppID": "af7c92acacca44b5a77d88672e636405",
+   "endpoints": {
+      "USD/TRY": "https://openexchangerates.org/api/latest.json?base=USD&symbols=TRY"
+   }
+}
