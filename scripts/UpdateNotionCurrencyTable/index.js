@@ -3,6 +3,7 @@ const TaskConfig = require('./configs.json')
 const Axios = require('../../utils/Axios')
 const OpenExchangeRates = require('../../config/OpenExchangeRates.json')
 const NotionClient = require('../../utils/NotionClient')
+const Runner = require('../../utils/Runner')
 
 const getRate = async () => {
    const response = await Axios.get(OpenExchangeRates.endpoints['USD/TRY'], {
@@ -11,10 +12,10 @@ const getRate = async () => {
    return response.data?.rates?.TRY
 }
 
-;(async () => {
+Runner(async () => {
    const rate = await getRate()
    await NotionClient.pages.update({
       page_id: TaskConfig.PageID,
       properties: { 'USD Rate': rate },
    })
-})()
+})
