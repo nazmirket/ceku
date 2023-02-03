@@ -18,4 +18,7 @@ Runner(async () => {
       page_id: TaskConfig.PageID,
       properties: { 'USD Rate': rate },
    })
-})
+
+   // return message to be logged
+   return `Updated  1USD = ${rate}TRY`
+}, 'UpdateNotionCurrencyTable')

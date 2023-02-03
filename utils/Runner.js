@@ -1,10 +1,12 @@
-module.exports = (f) =>
+const Logger = require('./Logger')
+
+module.exports = (f, label) =>
    f()
-      .then(() => {
-         console.log('Done!')
+      .then(async (message) => {
+         if (label) await Logger(label, message, 'OK')
          process.exit(0)
       })
-      .catch((e) => {
-         console.log('Error!', e)
+      .catch(async (e) => {
+         if (label) await Logger(label, e.message, 'ERROR')
          process.exit(1)
       })
