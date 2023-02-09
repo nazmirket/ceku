@@ -82,10 +82,10 @@ module.exports.page = async function (pageName) {
    }
 }
 
-module.exports.plain = async function (text, { format }) {
+module.exports.plain = async function (text) {
    return {
       type: 'txt',
-      data: `${format ? format(text) : text}`,
+      data: `${text}`,
    }
 }
 
