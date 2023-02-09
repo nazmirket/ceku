@@ -1,0 +1,16 @@
+{
+   "words": [
+      {
+         "word": "welcome",
+         "fallback": "Hoşgeldin"
+      },
+      {
+         "word": "correct",
+         "fallback": "Doğru"
+      },
+      {
+         "word": "unrecognized",
+         "fallback": "Tanımıyorum"
+      }
+   ]
+}
