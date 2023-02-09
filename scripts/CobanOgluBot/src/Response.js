@@ -99,7 +99,7 @@ module.exports.plain = async function (text, { format }) {
 module.exports.prepared = {
    notConfirmed: () => ({
       type: 'txt',
-      data: 'Bu komutu kullanabilmek için önce !dogrula komutunu kullanmalısın.',
+      data: 'Bu komutu kullanabilmek için önce /dogrula komutunu kullanmalısın.',
    }),
    invoice: (amount, label) => ({
       type: 'txt',

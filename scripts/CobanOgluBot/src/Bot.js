@@ -44,7 +44,7 @@ for (const command of Commands) {
 
 Bot.on('text', async function (message) {
    // check if command and stop if so
-   const isCommand = /^\!.*$/.test(message.text)
+   const isCommand = /^\/.*$/.test(message.text)
    if (isCommand) return
 
    const chatId = message.chat.id

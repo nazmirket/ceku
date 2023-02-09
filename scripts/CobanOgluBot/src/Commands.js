@@ -7,9 +7,9 @@ const cDate = require('./cDate')
 module.exports = commands = [
    // Help
    {
-      def: '!yardim',
+      def: '/yardim',
       desc: 'Tüm komutlar hakkında bilgi verir.',
-      regex: /^\!yardim$/,
+      regex: /^\/yardim$/,
       cont: false,
       props: [],
       async action() {
@@ -18,15 +18,15 @@ module.exports = commands = [
    },
    // Register as new roommate
    {
-      def: '!eklebeni',
+      def: '/eklebeni',
       desc: 'Yeni bir kullanıcı ekler.',
-      regex: /^\!eklebeni$/,
+      regex: /^\/eklebeni$/,
       cont: true,
       props: [
          {
             key: 'name',
             q: 'Adın Ne?',
-            error: 'Düzgün gir adını! Mesela Benim Adım HomeBot.',
+            error: 'Düzgün gir adını! Mesela Benim Adım Ceku.',
             validate(v) {
                const valid = v?.length > 0 && v?.match(/^[a-zA-Z]*$/g)
                if (valid) return true
@@ -60,9 +60,9 @@ module.exports = commands = [
    },
    // Confirm user
    {
-      def: '!dogrula',
+      def: '/dogrula',
       desc: 'Kullanıcıyı doğrular.',
-      regex: /^\!dogrula$/,
+      regex: /^\/dogrula$/,
       cont: true,
       props: [
          {
@@ -84,9 +84,9 @@ module.exports = commands = [
    },
    // Get user list
    {
-      def: '!ahali',
+      def: '/ahali',
       desc: 'Kullanıcıların listesini gösterir.',
-      regex: /^\!ahali$/,
+      regex: /^\/ahali$/,
       cont: false,
       props: [],
       protect: true,
@@ -106,9 +106,9 @@ module.exports = commands = [
    },
    // Add expense
    {
-      def: '!gider',
+      def: '/gider',
       desc: 'Yeni gider bilgisi ekler.',
-      regex: /^\!gider$/,
+      regex: /^\/gider$/,
       cont: true,
       props: [
          {
@@ -163,9 +163,9 @@ module.exports = commands = [
    },
    // Add payment
    {
-      def: '!odeme',
+      def: '/odeme',
       desc: 'Ev hesabına yapılan ödeme bilgisini ekler.',
-      regex: /^\!odeme$/,
+      regex: /^\/odeme$/,
       cont: true,
       props: [
          {
@@ -199,9 +199,9 @@ module.exports = commands = [
    },
    // Get debt
    {
-      def: '!borc',
+      def: '/borc',
       desc: 'Mesaj gönderen kişinin borç bilgisini gösterir.',
-      regex: /^\!borc$/,
+      regex: /^\/borc$/,
       cont: false,
       props: [],
       protect: true,
@@ -212,9 +212,9 @@ module.exports = commands = [
    },
    // Donate
    {
-      def: '!bagis',
+      def: '/bagis',
       desc: 'Ev hesabına yapılan bağış bilgisini ekler.',
-      regex: /^\!bagis$/,
+      regex: /^\/bagis$/,
       cont: true,
       props: [
          {
@@ -248,9 +248,9 @@ module.exports = commands = [
    },
    // Get payments
    {
-      def: '!odemelerim',
+      def: '/odemelerim',
       desc: 'Mesaj gönderen kişinin son 15 ödeme işlemini listeler.',
-      regex: /^\!odemelerim$/,
+      regex: /^\/odemelerim$/,
       cont: false,
       props: [],
       protect: true,
@@ -268,9 +268,9 @@ module.exports = commands = [
    },
    // Get donations
    {
-      def: '!bagislarim',
+      def: '/bagislarim',
       desc: 'Mesaj gönderen kişinin son 15 bağış işlemini listeler.',
-      regex: /^\!bagislarim$/,
+      regex: /^\/bagislarim$/,
       cont: false,
       props: [],
       protect: true,
@@ -289,9 +289,9 @@ module.exports = commands = [
    },
    // Get identity of the sender
    {
-      def: '!ben',
+      def: '/ben',
       desc: 'Mesaj atan kişinin kim olduğunu belirtir.',
-      regex: /^\!ben$/,
+      regex: /^\/ben$/,
       cont: false,
       props: [],
       async action(values, sender) {
@@ -305,9 +305,9 @@ module.exports = commands = [
    },
    // Get donation leaderboard
    {
-      def: '!tab',
+      def: '/tab',
       desc: 'En çok bağış yapan 3 kişiyi ve bağış miktarlarını listeler.',
-      regex: /^\!tab$/,
+      regex: /^\/tab$/,
       cont: false,
       props: [],
       protect: true,
@@ -326,9 +326,9 @@ module.exports = commands = [
    },
    // Get expenses
    {
-      def: '!giderler',
+      def: '/giderler',
       desc: 'Son 15 gideri listeler.',
-      regex: /^\!giderler$/,
+      regex: /^\/giderler$/,
       cont: false,
       props: [],
       protect: true,
