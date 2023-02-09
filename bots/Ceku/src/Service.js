@@ -47,6 +47,14 @@ module.exports.user = async (sender) => {
 
 // Add Expense
 module.exports.expense = async (amount, label, desc, sender, paid) => {
+   // check if user is roommate
+   const user = await sequelize.models.User.findOne({
+      where: { id: sender.id },
+      raw: true,
+   })
+   if (!user.isRoommate)
+      throw new Error('Evin adamı değilsin, Ne gideri ekliyon')
+
    const expense = await sequelize.models.Expense.create({
       amount,
       label,
@@ -172,6 +180,13 @@ module.exports.donationLeaderBoard = async () => {
 
 // Get Debt of User
 module.exports.debt = async (sender) => {
+   // check if user is roommate
+   const user = await sequelize.models.User.findOne({
+      where: { id: sender.id },
+      raw: true,
+   })
+   if (!user.isRoommate) return 0
+
    const roommateCount = await sequelize.models.User.count({
       where: { isRoommate: true, active: true },
    })

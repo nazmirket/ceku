@@ -347,4 +347,16 @@ module.exports = commands = [
          })
       },
    },
+   // Get IBAN
+   {
+      def: '/iban',
+      desc: 'Ev hesabının iban numarasını görüntüler',
+      regex: /^\/iban$/,
+      cont: false,
+      props: [],
+      protect: true,
+      async action() {
+         return Response.plain(`Nazmi Yılmaz \n Ziraat Bankası ${Configs.IBAN}`)
+      },
+   },
 ]
