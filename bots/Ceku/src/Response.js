@@ -25,32 +25,25 @@ module.exports.init = async function () {
    for (const { word, fallback } of words) {
       const root = [GifRoot, word].join('/')
       const files = await list(root)
-      sources.gifs[word] = {
-         list: files,
-         get: function () {
-            return this.list[Math.floor(Math.random() * this.list.length)]
-         },
-         fallback,
-      }
+      sources.gifs[word] = { list: files, fallback }
    }
+
    // init videos
    for (const { word, fallback } of words) {
       const root = [VidRoot, word].join('/')
       const files = await list(root)
-      sources.vids[word] = {
-         list: files,
-         get: function () {
-            return this.list[Math.floor(Math.random() * this.list.length)]
-         },
-         fallback,
-      }
+      sources.vids[word] = { list: files, fallback }
    }
+}
+
+function rand(list) {
+   return list[Math.floor(Math.random() * list.length)]
 }
 
 module.exports.gif = async function (word) {
    const source = sources.gifs[word]
    if (!source) return { type: 'txt', data: word }
-   const gif = source.get()
+   const gif = rand(source.list)
    if (!gif) return { type: 'txt', data: source.fallback }
    return { type: 'gif', data: gif }
 }
@@ -58,7 +51,7 @@ module.exports.gif = async function (word) {
 module.exports.vid = async function (word) {
    const source = sources.vids[word]
    if (!source) return { type: 'txt', data: word }
-   const vid = source.get()
+   const vid = rand(source.list)
    if (!vid) return { type: 'txt', data: source.fallback }
    return { type: 'vid', data: vid }
 }

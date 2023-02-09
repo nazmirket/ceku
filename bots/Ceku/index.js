@@ -1,10 +1,8 @@
 const Response = require('./src/Response')
 const Database = require('./src/Database')
 
-async function start() {
+module.exports.start = async () => {
    await Response.init()
    await Database.init()
    require('./src/Bot')
 }
-
-start()
