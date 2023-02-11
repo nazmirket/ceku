@@ -43,6 +43,8 @@ async function init () {
     const { type, interval } = schedule
     // schedule the script
     Scheduler[type](() => run(script), interval)
+    // console log the script
+    console.log(`Scheduled: ${script}`)
   })
 
   process.stdin.on('data', console.log)
