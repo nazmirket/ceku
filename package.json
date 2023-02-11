@@ -4,8 +4,9 @@
    "description": "",
    "main": "main.js",
    "scripts": {
-      "start": "node main.js",
-      "bots": "node bots.js"
+      "scripts": "node ./scripts",
+      "ceku": "node ./bots/Ceku",
+      "lint": "eslint"
    },
    "author": "nazmirket",
    "license": "ISC",
@@ -19,5 +20,12 @@
       "node-telegram-bot-api": "^0.61.0",
       "sequelize": "^6.28.0",
       "sqlite3": "^5.1.4"
+   },
+   "devDependencies": {
+      "eslint": "^8.34.0",
+      "eslint-config-standard": "^17.0.0",
+      "eslint-plugin-import": "^2.27.5",
+      "eslint-plugin-n": "^15.6.1",
+      "eslint-plugin-promise": "^6.1.1"
    }
 }
