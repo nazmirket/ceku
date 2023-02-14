@@ -1,21 +1,20 @@
 {
-    "env": {
-        "browser": true,
-        "commonjs": true,
-        "es2021": true
-    },
-    "extends": "standard",
-    "overrides": [],
-    "parserOptions": {
-        "ecmaVersion": "latest"
-    },
-    "rules": {
-        "brace-style": [
-            "error",
-            "stroustrup",
-            {
-                "allowSingleLine": true
-            }
-        ]
-    }
+	"root": true,
+	"env": {
+		"browser": true,
+		"node": true,
+		"commonjs": true
+	},
+	"extends": ["eslint:recommended", "plugin:n/recommended"],
+	"plugins": ["prettier"],
+	"ignorePatterns": ["node_modules", "tests", "resources", "public"],
+	"parserOptions": {
+		"ecmaVersion": "latest"
+	},
+	"rules": {
+		"prettier/prettier": "error",
+		"no-unused-vars": "warn",
+		"no-console": "warn",
+		"arrow-parens": ["error", "as-needed"]
+	}
 }

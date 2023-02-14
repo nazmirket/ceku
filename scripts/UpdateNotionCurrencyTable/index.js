@@ -6,19 +6,19 @@ const NotionClient = require('../../utils/NotionClient')
 const Runner = require('../../utils/Runner')
 
 const getRate = async () => {
-  const response = await Axios.get(OpenExchangeRates.endpoints['USD/TRY'], {
-    params: { app_id: OpenExchangeRates.AppID }
-  })
-  return response.data?.rates?.TRY
+	const response = await Axios.get(OpenExchangeRates.endpoints['USD/TRY'], {
+		params: { app_id: OpenExchangeRates.AppID },
+	})
+	return response.data?.rates?.TRY
 }
 
 Runner(async () => {
-  const rate = await getRate()
-  await NotionClient.pages.update({
-    page_id: TaskConfig.PageID,
-    properties: { 'USD Rate': rate }
-  })
+	const rate = await getRate()
+	await NotionClient.pages.update({
+		page_id: TaskConfig.PageID,
+		properties: { 'USD Rate': rate },
+	})
 
-  // return message to be logged
-  return `Updated  1USD = ${rate}TRY`
+	// return message to be logged
+	return `Updated  1USD = ${rate}TRY`
 }, 'UpdateNotionCurrencyTable')

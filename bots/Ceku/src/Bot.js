@@ -10,95 +10,113 @@ const Response = require('./Response')
 const Service = require('./Service')
 
 for (const command of Commands) {
-  Bot.onText(command.regex, async function (message, match) {
-    const chatId = message.chat.id
-    const sender = message.from
+	Bot.onText(command.regex, async function (message, match) {
+		const chatId = message.chat.id
+		const sender = message.from
 
-    // if command is protected, check if user is confirmed
-    if (command.protect) {
-      const confirmed = await Service.isConfirmed(sender)
-      if (!confirmed) {
-        await respond(chatId, Response.prepared.notConfirmed())
-        return
-      }
-    }
+		// if command is protected, check if user is confirmed
+		if (command.protect) {
+			const confirmed = await Service.isConfirmed(sender)
+			if (!confirmed) {
+				await respond(chatId, Response.prepared.notConfirmed())
+				return
+			}
+		}
 
-    // if command is continuable, set it as current command and ask first question
-    if (command.cont) {
-      History.init(chatId, command)
-      await Bot.sendMessage(chatId, command.props[0].q)
-    }
-    // if command is not continuable, execute it
-    else {
-      History.clear(chatId)
-      try {
-        const res = await command.action(match, sender)
-        await respond(chatId, res)
-      }
-      catch (e) {
-        await Bot.sendMessage(chatId, e.message)
-      }
-    }
-  })
+		// if command is continuable, set it as current command and ask first question
+		if (command.cont) {
+			History.init(chatId, command)
+			await Bot.sendMessage(chatId, command.props[0].q)
+		}
+		// if command is not continuable, execute it
+		else {
+			History.clear(chatId)
+			try {
+				const res = await command.action(match, sender)
+				// if multiple responses, send them one by one
+				if (res?.length > 0) for (const r of res) await respond(chatId, r)
+				// if single response, send it
+				else await respond(chatId, res)
+			} catch (e) {
+				await Bot.sendMessage(chatId, e.message)
+			}
+		}
+	})
 }
 
 Bot.on('text', async function (message) {
-  // check if command and stop if so
-  const isCommand = /^\/.*$/.test(message.text)
-  if (isCommand) return
+	// check if command and stop if so
+	const isCommand = /^\/.*$/.test(message.text)
+	if (isCommand) return
 
-  const chatId = message.chat.id
+	const chatId = message.chat.id
 
-  // get current chat
-  const chat = History.get(chatId)
+	// get current chat
+	const chat = History.get(chatId)
 
-  // get current command
-  const command = chat ? chat.getCommand() : null
+	// get current command
+	const command = chat ? chat.getCommand() : null
 
-  // if command is not continuable, return
-  if (!command) return
+	// if command is not continuable, return
+	if (!command) return
 
-  const step = chat.propLength()
+	const step = chat.propLength()
 
-  // get current question
-  const prop = command.props[step]
+	// get current question
+	const prop = command.props[step]
 
-  // if question is not defined, return
-  if (!prop) return
+	// if question is not defined, return
+	if (!prop) return
 
-  // validate answer
-  const validationResponse = prop.validate(message.text)
+	// validate answer
+	const validationResponse = prop.validate(message.text)
 
-  // if answer is not valid, ask again
-  if (validationResponse !== true) {
-    await Bot.sendMessage(chatId, validationResponse)
-    return
-  }
+	// if answer is not valid, ask again
+	if (validationResponse !== true) {
+		await Bot.sendMessage(chatId, validationResponse)
+		return
+	}
 
-  // if answer is valid, save it
-  chat.setProp(prop.key, prop.transform(message.text))
+	// if answer is valid, save it
+	chat.setProp(prop.key, prop.transform(message.text))
 
-  // if there are more questions, ask next question
-  if (command.props.length > step + 1) {
-    await Bot.sendMessage(chatId, command.props[step + 1].q)
-    return
-  }
+	// if there are more questions, ask next question
+	if (command.props.length > step + 1) {
+		await Bot.sendMessage(chatId, command.props[step + 1].q)
+		return
+	}
 
-  // if there are no more questions, execute command
-  const sender = message.from
+	// if there are no more questions, execute command
+	const sender = message.from
 
-  try {
-    const res = await command.action(chat.props, sender)
-    await respond(chatId, res)
-  }
-  catch (e) {
-    await Bot.sendMessage(chatId, e.message)
-  }
+	try {
+		const res = await command.action(chat.props, sender)
+
+		// if multiple responses, send them one by one
+		if (res?.length > 0) for (const r of res) await respond(chatId, r)
+		// if single response, send it
+		else await respond(chatId, res)
+	} catch (e) {
+		await Bot.sendMessage(chatId, e.message)
+	}
 })
 
-async function respond (chatId, { type, data }) {
-  if (type === 'gif') await Bot.sendAnimation(chatId, data)
-  if (type === 'vid') await Bot.sendVideo(chatId, data)
-  if (type === 'html') { await Bot.sendMessage(chatId, data, { parse_mode: 'HTML' }) }
-  else await Bot.sendMessage(chatId, data)
+async function respond(chatId, { type, data }) {
+	// send gif as response
+	if (type === 'gif') await Bot.sendAnimation(chatId, data)
+
+	// send video as response
+	if (type === 'vid') await Bot.sendVideo(chatId, data)
+
+	// send html markup as response
+	if (type === 'html') await Bot.sendMessage(chatId, data, { parse_mode: 'HTML' })
+
+	// send text as response
+	if (type === 'txt') await Bot.sendMessage(chatId, data)
+
+	// send file as response
+	if (type === 'file') await Bot.sendDocument(chatId, data)
+
+	// send image as response
+	if (type === 'img') await Bot.sendPhoto(chatId, data)
 }
