@@ -364,7 +364,7 @@ const commands = [
 		regex: /^\/vpn$/,
 		cont: false,
 		props: [],
-		protect: false,
+		protect: true,
 		async action() {
 			const file = await Response.file('ceku.ovpn')
 			const manual = await Response.img('vpn.png')
