@@ -126,10 +126,8 @@ const commands = [
 			{
 				key: 'label',
 				q: 'Gider etiketi? (Alışveriş, Elektrik, Su, vs.)',
-				error:
-					'Etiketi boşluk bırakmadan tek kelime olacak şekilde yaz. 20 karakteri geçmesin.',
+				error: 'Etiket 20 karakteri geçmesin.',
 				validate(v) {
-					if (v.split(' ').length > 1) return this.error
 					if (v.length > 20) return this.error
 					return true
 				},
