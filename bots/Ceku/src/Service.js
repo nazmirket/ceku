@@ -31,11 +31,8 @@ module.exports.removeUser = async sender => {
 }
 
 // get single user
-module.exports.user = async sender => {
-	const user = await sequelize.models.User.findOne({
-		where: { id: sender.id },
-		raw: true,
-	})
+module.exports.user = async id => {
+	const user = await sequelize.models.User.findOne({ where: { id }, raw: true })
 	return user || null
 }
 
@@ -95,15 +92,38 @@ module.exports.users = async () => {
 }
 
 // Get Payments of user
-module.exports.payments = async (sender, limit) => {
-	// get latest payments limited by limit
-	const payments = await sequelize.models.Payment.findAll({
-		where: { user: sender.id },
-		limit,
-		order: [['createdAt', 'DESC']],
-		raw: true,
-	})
-	return payments
+module.exports.payments = async (limit, sender) => {
+	// get latest payments of sender
+	if (sender) {
+		const payments = await sequelize.models.Payment.findAll({
+			where: { user: sender.id },
+			limit,
+			order: [['createdAt', 'DESC']],
+			raw: true,
+		})
+		return payments
+	}
+
+	// get latest payments
+	else {
+		const payments = await sequelize.models.Payment.findAll({
+			limit,
+			order: [['createdAt', 'DESC']],
+			raw: true,
+		})
+
+		const fixed = await Promise.all(
+			payments.map(async l => {
+				const user = await sequelize.models.User.findOne({
+					where: { id: l.user },
+					raw: true,
+				})
+				return { ...l, user: user.name }
+			})
+		)
+
+		return fixed
+	}
 }
 
 // Get Donations of user

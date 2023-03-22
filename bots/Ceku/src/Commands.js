@@ -255,7 +255,7 @@ const commands = [
 		props: [],
 		protect: true,
 		async action(values, sender) {
-			const payments = await Service.payments(sender, 15) // latest 15 payments
+			const payments = await Service.payments(15, sender) // latest 15 payments
 			return Response.list(payments, {
 				head: `Son ${payments.length} ödeme listen:`,
 				format(p) {
@@ -295,7 +295,7 @@ const commands = [
 		cont: false,
 		props: [],
 		async action(values, sender) {
-			const me = await Service.user(sender)
+			const me = await Service.user(sender.id)
 			if (me) return Response.plain(`Senin adın ${me.name}.`)
 			return Response.vid('unrecognized')
 		},
@@ -357,16 +357,23 @@ const commands = [
 	},
 	// Get VPN
 	{
-		def: '/vpn',
-		desc: 'VPN erişimi için gerekli dosyayı indirir',
-		regex: /^\/vpn$/,
+		def: '/odemeler',
+		desc: 'Son yapılan ödemeleri listeler.',
+		regex: /^\/odemeler$/,
 		cont: false,
 		props: [],
 		protect: true,
 		async action() {
-			const file = await Response.file('ceku.ovpn')
-			const manual = await Response.img('vpn.png')
-			return [manual, file]
+			const payments = await Service.payments(20) // latest 20 payments
+			return Response.list(payments, {
+				head: `Son ${payments.length} ödemeler:`,
+				format(p) {
+					const user = p.user
+					const amount = p.amount
+					const date = cDate(p.createdAt)
+					return `${user} ${date} ${amount}`
+				},
+			})
 		},
 	},
 ]
