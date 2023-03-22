@@ -145,13 +145,13 @@ const commands = [
 			},
 			{
 				key: 'paidBySender',
-				q: 'Son olarak, bu gideri sen mi ödedin? Evet/Hayır',
-				error: 'Çok net bir soru sordum Evet ya da Hayır',
+				q: 'Gideri sen mi ödedin? E/H',
+				error: 'Evet için E hayır için H',
 				validate(v) {
-					if (!['Evet', 'Hayır'].includes(v)) return this.error
+					if (!['E', 'H'].includes(v.toUpperCase())) return this.error
 					return true
 				},
-				transform: v => v === 'Evet',
+				transform: v => v.toUpperCase() === 'E',
 			},
 		],
 		protect: true,
