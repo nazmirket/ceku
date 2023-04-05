@@ -15,11 +15,11 @@ module.exports = {
 
 		sequelize.define('User', User)
 
-		sequelize.define('Expense', Expense, { timestamps: true })
+		sequelize.define('Expense', Expense, { timestamps: true, initialAutoIncrement: 1 })
 
-		sequelize.define('Payment', Payment, { timestamps: true })
+		sequelize.define('Payment', Payment, { timestamps: true, initialAutoIncrement: 1 })
 
-		sequelize.define('Donation', Donation, { timestamps: true })
+		sequelize.define('Donation', Donation, { timestamps: true, initialAutoIncrement: 1 })
 
 		sequelize.models.User.hasMany(sequelize.models.Payment, {
 			foreignKey: 'user',

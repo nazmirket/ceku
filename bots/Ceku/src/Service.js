@@ -2,11 +2,10 @@ const { sequelize } = require('./Database')
 
 // Create User
 module.exports.register = async (sender, name, isRoommate) => {
-	const user = await sequelize.models.User.create({
-		id: sender.id,
-		name,
-		isRoommate,
-	})
+	const user = await sequelize.models.User.create(
+		{ id: sender.id, name, isRoommate },
+		{ validate: false, raw: true, isNewRecord: true }
+	)
 	return user
 }
 
@@ -48,26 +47,26 @@ module.exports.expense = async (amount, label, desc, sender) => {
 		throw new Error('Evin adamı değilsin, Ne gideri ekliyon')
 	}
 
-	await sequelize.models.Expense.create({
-		amount,
-		label,
-		desc,
-		addedBy: sender.id,
-	})
+	await sequelize.models.Expense.create(
+		{ amount, label, desc, addedBy: sender.id },
+		{ validate: false, raw: true, isNewRecord: true }
+	)
 }
 
 // Add Payment
 module.exports.pay = async (senderId, amount, desc) => {
-	await sequelize.models.Payment.create({ user: senderId, amount, desc })
+	await sequelize.models.Payment.create(
+		{ user: senderId, amount, desc },
+		{ validate: false, raw: true, isNewRecord: true }
+	)
 }
 
 // Add Donation
 module.exports.donate = async (sender, amount, desc) => {
-	const donation = await sequelize.models.Donation.create({
-		user: sender.id,
-		amount,
-		desc,
-	})
+	const donation = await sequelize.models.Donation.create(
+		{ user: sender.id, amount, desc },
+		{ validate: false, raw: true, isNewRecord: true }
+	)
 	return donation
 }
 
