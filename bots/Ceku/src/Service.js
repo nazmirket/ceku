@@ -43,6 +43,7 @@ module.exports.expense = async (amount, label, desc, sender) => {
 		where: { id: sender.id },
 		raw: true,
 	})
+
 	if (!user.isRoommate) {
 		throw new Error('Evin adamı değilsin, Ne gideri ekliyon')
 	}

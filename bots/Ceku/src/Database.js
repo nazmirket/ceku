@@ -15,17 +15,11 @@ module.exports = {
 
 		sequelize.define('User', User)
 
-		sequelize.define('Expense', Expense, {
-			timestamps: true,
-		})
+		sequelize.define('Expense', Expense, { timestamps: true })
 
-		sequelize.define('Payment', Payment, {
-			timestamps: true,
-		})
+		sequelize.define('Payment', Payment, { timestamps: true })
 
-		sequelize.define('Donation', Donation, {
-			timestamps: true,
-		})
+		sequelize.define('Donation', Donation, { timestamps: true })
 
 		sequelize.models.User.hasMany(sequelize.models.Payment, {
 			foreignKey: 'user',
@@ -37,7 +31,7 @@ module.exports = {
 			as: 'donations',
 		})
 
-		await sequelize.sync()
+		await sequelize.sync({ alter: true })
 	},
 	sequelize,
 }
