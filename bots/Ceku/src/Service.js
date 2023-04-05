@@ -56,13 +56,8 @@ module.exports.expense = async (amount, label, desc, sender) => {
 }
 
 // Add Payment
-module.exports.pay = async (senderId, amount, desc, expenseId) => {
-	await sequelize.models.Payment.create({
-		user: senderId,
-		amount,
-		desc,
-		expense: expenseId || -1,
-	})
+module.exports.pay = async (senderId, amount, desc) => {
+	await sequelize.models.Payment.create({ user: senderId, amount, desc })
 }
 
 // Add Donation
