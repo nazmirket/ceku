@@ -184,7 +184,7 @@ const commands = [
 		cont: false,
 		props: [],
 		protect: true,
-		async action(values, sender) {
+		async action(_, sender) {
 			const amount = await Service.debt(sender)
 			return Response.prepared.debt(amount)
 		},
