@@ -3,9 +3,19 @@ const Runner = require('../../utils/Runner')
 
 const Counter = require('./src/counter')
 
-Runner(async () => {
-	await Counter(TaskConfig.VIDEO_ID)
+const Scheduler = require('../../utils/Scheduler')
 
-	// return message to be logged
-	return 'Updated Youtube Views Successfully'
-}, 'UpdateYoutubeViews')
+// initialize the scheduler
+async function init() {
+	Scheduler.cycle(function () {
+		Runner(
+			() =>
+				Counter(TaskConfig.VIDEO_ID)
+					.then(() => 'Updated Youtube Views Successfully')
+					.catch(e => e.message),
+			'UpdateYoutubeViews'
+		)
+	}, 30)
+}
+
+init()

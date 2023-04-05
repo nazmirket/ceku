@@ -5,17 +5,6 @@ const Service = require('./Service')
 const cDate = require('./cDate')
 
 const commands = [
-	// Help
-	{
-		def: '/yardim',
-		desc: 'Tüm komutlar hakkında bilgi verir.',
-		regex: /^\/yardim$/,
-		cont: false,
-		props: [],
-		async action() {
-			return await Response.page('help')
-		},
-	},
 	// Register as new roommate
 	{
 		def: '/eklebeni',
@@ -143,21 +132,11 @@ const commands = [
 				},
 				transform: v => v,
 			},
-			{
-				key: 'paidBySender',
-				q: 'Gideri sen mi ödedin? E/H',
-				error: 'Evet için E hayır için H',
-				validate(v) {
-					if (!['E', 'H'].includes(v.toUpperCase())) return this.error
-					return true
-				},
-				transform: v => v.toUpperCase() === 'E',
-			},
 		],
 		protect: true,
 		async action(values, sender) {
-			const { amount, label, desc, paidBySender } = values
-			await Service.expense(amount, label, desc, sender, paidBySender)
+			const { amount, label, desc } = values
+			await Service.expense(amount, label, desc, sender)
 			return Response.prepared.invoice(amount, label)
 		},
 	},
@@ -352,10 +331,9 @@ const commands = [
 		props: [],
 		protect: true,
 		async action() {
-			return Response.page('iban')
+			return Response.plain(Configs.IBAN)
 		},
 	},
-	// Get VPN
 	{
 		def: '/odemeler',
 		desc: 'Son yapılan ödemeleri listeler.',

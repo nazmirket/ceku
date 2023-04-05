@@ -27,11 +27,6 @@ module.exports = {
 			timestamps: true,
 		})
 
-		sequelize.models.Expense.hasOne(sequelize.models.Payment, {
-			foreignKey: 'expense',
-			as: 'payment',
-		})
-
 		sequelize.models.User.hasMany(sequelize.models.Payment, {
 			foreignKey: 'user',
 			as: 'payments',

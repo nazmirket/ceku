@@ -55,9 +55,6 @@ module.exports = {
 		desc: {
 			type: DataTypes.STRING,
 		},
-		expense: {
-			type: DataTypes.INTEGER,
-		},
 	},
 	Donation: {
 		id: {

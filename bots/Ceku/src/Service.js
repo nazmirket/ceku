@@ -37,7 +37,7 @@ module.exports.user = async id => {
 }
 
 // Add Expense
-module.exports.expense = async (amount, label, desc, sender, paid) => {
+module.exports.expense = async (amount, label, desc, sender) => {
 	// check if user is roommate
 	const user = await sequelize.models.User.findOne({
 		where: { id: sender.id },
@@ -47,19 +47,12 @@ module.exports.expense = async (amount, label, desc, sender, paid) => {
 		throw new Error('Evin adamı değilsin, Ne gideri ekliyon')
 	}
 
-	const expense = await sequelize.models.Expense.create({
+	await sequelize.models.Expense.create({
 		amount,
 		label,
 		desc,
 		addedBy: sender.id,
 	})
-
-	const expenseId = expense.id
-
-	if (paid) {
-		const pDesc = `${expenseId} id'ye sahip gider için yapılan ödeme.`
-		await this.pay(sender.id, amount, pDesc, expenseId)
-	}
 }
 
 // Add Payment
@@ -68,7 +61,7 @@ module.exports.pay = async (senderId, amount, desc, expenseId) => {
 		user: senderId,
 		amount,
 		desc,
-		expense: expenseId || null,
+		expense: expenseId || -1,
 	})
 }
 
@@ -87,7 +80,6 @@ module.exports.users = async () => {
 	const users = await sequelize.models.User.findAll({
 		raw: true,
 	})
-
 	return users
 }
 

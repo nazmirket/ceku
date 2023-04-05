@@ -1,4 +1,4 @@
-const { readdir, readFile } = require('fs').promises
+const { readdir } = require('fs').promises
 
 const path = require('path')
 
@@ -6,8 +6,6 @@ const { words } = require('./Responses.json')
 
 const GifRoot = [process.cwd(), 'public', 'gifs'].join('/')
 const VidRoot = [process.cwd(), 'public', 'videos'].join('/')
-
-const Renderer = require('../templates/Renderer')
 
 const sources = {
 	gifs: {},
@@ -68,29 +66,6 @@ module.exports.file = async name => {
 module.exports.img = async name => {
 	const iPath = path.join(process.cwd(), 'public', 'images', name)
 	return { type: 'img', data: iPath }
-}
-
-module.exports.list = async function (items, { head, foot, format }) {
-	const data = {
-		head: head || '',
-		foot: foot || '',
-		list:
-			items.length > 0
-				? (format ? items.map(format) : items).filter(l => l)
-				: ['Henüz veri yok.'],
-	}
-	return {
-		type: 'html',
-		data: await Renderer('list', data),
-	}
-}
-
-module.exports.page = async function (pageName) {
-	const file = path.join(__dirname, '..', 'pages', `${pageName}.html`)
-	return {
-		type: 'html',
-		data: await readFile(file, 'utf8'),
-	}
 }
 
 module.exports.plain = async function (text) {
