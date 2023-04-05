@@ -92,13 +92,11 @@ Bot.on('text', async function (message) {
 	try {
 		const res = await command.action(chat.props, sender)
 
-		console.log(res)
 		// if multiple responses, send them one by one
 		if (res?.length > 0) for (const r of res) await respond(chatId, r)
 		// if single response, send it
 		else await respond(chatId, res)
 	} catch (e) {
-		console.log(e)
 		await Bot.sendMessage(chatId, e.message)
 	}
 })
