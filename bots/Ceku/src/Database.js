@@ -31,7 +31,7 @@ module.exports = {
 			as: 'donations',
 		})
 
-		await sequelize.sync({ alter: true })
+		await sequelize.sync()
 	},
 	sequelize,
 }
