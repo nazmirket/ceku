@@ -172,7 +172,7 @@ const commands = [
 		protect: true,
 		async action(values, sender) {
 			const { amount, desc } = values
-			await Service.pay(sender, amount, desc)
+			await Service.pay(amount, desc, sender)
 			return Response.prepared.receipt(amount)
 		},
 	},

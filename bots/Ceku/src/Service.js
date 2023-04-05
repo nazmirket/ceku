@@ -54,9 +54,19 @@ module.exports.expense = async (amount, label, desc, sender) => {
 }
 
 // Add Payment
-module.exports.pay = async (senderId, amount, desc) => {
+module.exports.pay = async (amount, desc, sender) => {
+	// check if user is roommate
+	const user = await sequelize.models.User.findOne({
+		where: { id: sender.id },
+		raw: true,
+	})
+
+	if (!user.isRoommate) {
+		throw new Error('Evin adamı değilsin')
+	}
+
 	await sequelize.models.Payment.create(
-		{ user: senderId, amount, desc },
+		{ user: sender.id, amount, desc },
 		{ validate: false, raw: true, isNewRecord: true }
 	)
 }
