@@ -2,14 +2,7 @@ module.exports = {
 	apps: [
 		{
 			name: 'ceku',
-			script: 'node ./bots/Ceku',
-			env: {
-				NODE_ENV: 'production',
-			},
-		},
-		{
-			name: 'yt-counter',
-			script: 'node ./scripts/UpdateYoutubeViews',
+			script: 'node index.js',
 			env: {
 				NODE_ENV: 'production',
 			},

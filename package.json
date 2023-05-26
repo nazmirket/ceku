@@ -9,9 +9,6 @@
 		"dev": "pm2-dev ecosystem.config.js"
 	},
 	"dependencies": {
-		"cron": "^2.3.0",
-		"google-auth-library": "^8.5.2",
-		"googleapis": "^108.0.0",
 		"handlebars": "^4.7.7",
 		"node-telegram-bot-api": "^0.61.0",
 		"sequelize": "^6.28.0",
