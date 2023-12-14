@@ -1,6 +1,5 @@
 node_modules
 logs/**
-data/**
 
 
 # Ignore all DS_Store files

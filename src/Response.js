@@ -109,4 +109,10 @@ module.exports.prepared = {
 		type: 'txt',
 		data: `Borcun ${Math.round(amount)}₺`,
 	}),
+	debts: debts => ({
+		type: 'txt',
+		data: debts
+			.map(d => `${d.user}: ${Math.round(d.debt)}₺`)
+			.join('\n'),
+	}),
 }

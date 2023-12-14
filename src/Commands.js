@@ -189,6 +189,19 @@ const commands = [
 			return Response.prepared.debt(amount)
 		},
 	},
+	// Get debts
+	{
+		def: '/borclar',
+		desc: 'Ev halkının borçlarını listeler.',
+		regex: /^\/borclar$/,
+		cont: false,
+		props: [],
+		protect: true,
+		async action() {
+			const debts = await Service.debts()
+			return Response.prepared.debts(debts)
+		},
+	},
 	// Donate
 	{
 		def: '/bagis',

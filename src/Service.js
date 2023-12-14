@@ -213,3 +213,24 @@ module.exports.debt = async sender => {
 
 	return expenseShare - myTotalPayments
 }
+
+// Get debts of all users
+module.exports.debts = async () => {
+	const users = await sequelize.models.User.findAll({
+		where: { isRoommate: true, active: true },
+		raw: true,
+	})
+
+	const debts = await Promise.all(
+		users.map(async u => {
+			const user = await sequelize.models.User.findOne({
+				where: { id: u.id },
+				raw: true,
+			})
+			const debt = await module.exports.debt({ id: u.id })
+			return { user: user.name, debt }
+		})
+	)
+
+	return debts
+}
