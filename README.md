@@ -25,7 +25,7 @@ A Telegram bot designed to manage household expenses, payments, and donations fo
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
+git clone https://github.com/nazmirket/ceku.git
 cd ceku
 ```
 
